@@ -22,24 +22,20 @@ function makeBoard(width, height) {
 
 
   // columns
-  //rows
-  for (let rowIndex = 0; rowIndex < width; rowIndex++) {
-    const element = width[rowIndex];
-    // create div for single cell
-    let boardcell = document.createElement('div')
-    boardcell.className = 'board-cell'
-
+  for (let columnIndex = 0; columnIndex < height; columnIndex++) {
+    let boardRow = [];
+    //rows
+    for (let rowIndex = 0; rowIndex < width; rowIndex++) {
+      // const element = width[rowIndex];
+      // // create div for single cell
+      // let boardcell = document.createElement('div');
+      // boardcell.className = 'board-cell';
+      boardRow.push(null);
+    }
+    board.push(boardRow);
   }
 
 
-  /* board = [
-    [ null, null, null, null, null, null, null ],
-    [ null, null, null, null, null, null, null ],
-    [ null, null, null, null, null, null, null ],
-    [ null, null, null, null, null, null, null ],
-    [ null, null, null, null, null, null, null ],
-    [ null, null, null, null, null, null, null ],
-  ]; */
 
   return board;
 }
