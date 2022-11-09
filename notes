@@ -1,0 +1,13 @@
+
+Section welcome banner and start button
+Section whose turn it is split color who is blue, red
+Section gameplay
+Table Rows Cells Column
+Button above each Column to Change Grid spot to color
+Section reset button
+
+
+Pieces are square div backgrounds can make fancy later if time
+
+
+JS in-mem game board : controller 
