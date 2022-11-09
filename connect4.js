@@ -18,7 +18,7 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
  */
 
 function makeBoard(width, height) {
-  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
+  // // TODO: set "board" to empty HEIGHT x WIDTH matrix array
 
 
   // columns
@@ -26,10 +26,7 @@ function makeBoard(width, height) {
     let boardRow = [];
     //rows
     for (let rowIndex = 0; rowIndex < width; rowIndex++) {
-      // const element = width[rowIndex];
-      // // create div for single cell
-      // let boardcell = document.createElement('div');
-      // boardcell.className = 'board-cell';
+
       boardRow.push(null);
     }
     board.push(boardRow);
@@ -43,17 +40,20 @@ function makeBoard(width, height) {
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
-  // TODO: get "htmlBoard" iable from the item in HTML w/ID of "board"
+  // // TODO: get "htmlBoard" iable from the item in HTML w/ID of "board"
+  let boardHmtl = document.getElementById("board");
 
-  // TODO: add comment for this code
+  // // TODO: add comment for this code
+  // creates top row clickers
   let top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
   // TODO: add comment for this code
-  for (let x = 0; x < WIDTH; x++) {
+  // creates head cell
+  for (let headCell = 0; headCell < WIDTH; headCell++) {
     let headCell = document.createElement("td");
-    headCell.setAttribute("id", x);
+    headCell.setAttribute("id", headCell);
     top.append(headCell);
   }
   htmlBoard.append(top);
