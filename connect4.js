@@ -17,41 +17,32 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
-function makeBoard(width, height) {
-  // // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-
-
+function makeBoard(width = WIDTH, height = HEIGHT) {
   // columns
   for (let columnIndex = 0; columnIndex < height; columnIndex++) {
     let boardRow = [];
     //rows
     for (let rowIndex = 0; rowIndex < width; rowIndex++) {
-
       boardRow.push(null);
     }
     board.push(boardRow);
   }
-
-
 
   return board;
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
-function makeHtmlBoard() {
-  // // TODO: get "htmlBoard" iable from the item in HTML w/ID of "board"
-  let boardHmtl = document.getElementById("board");
+function makeHtmlBoard(width = WIDTH, height = HEIGHT) {
+  let htmlBoard = document.getElementById("board");
 
-  // // TODO: add comment for this code
   // creates top row clickers
   let top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
-  // TODO: add comment for this code
   // creates head cell
-  for (let headCell = 0; headCell < WIDTH; headCell++) {
+  for (let headCellIndex = 0; headCellIndex < width; headCellIndex++) {
     let headCell = document.createElement("td");
     headCell.setAttribute("id", headCell);
     top.append(headCell);
@@ -61,16 +52,23 @@ function makeHtmlBoard() {
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
-  for (let y = 0; y < HEIGHT; y++) {
-    // TODO: Create a table row element and assign to a "row" iable
+  for (let heightIndex = 0; heightIndex < height; heightIndex++) {
+    // // TODO: Create a table row element and assign to a "row"
+    let row = document.createElement("tr");
+    row.className = "rableRow";
 
-    for (let x = 0; x < WIDTH; x++) {
-      // TODO: Create a table cell element and assign to a "cell" iable
-      // TODO: add an id, c-y-x, to the above table cell element
+    for (let widthIndex = 0; widthIndex < width; widthIndex++) {
+      // // TODO: Create a table cell element and assign to a "cell" variable
+      let cell = document.createElement("td");
+      cell.className = "tableCell";
+      cell.id = "c-y-x";
+      // // TODO: add an id, c-y-x, to the above table cell element
       // you'll use this later, so make sure you use c-y-x
-      // TODO: append the table cell to the table row
+      // // TODO: append the table cell to the table row
+      row.appendChild(cell);
     }
-    // TODO: append the row to the html board
+    // // TODO: append the row to the html board
+    htmlBoard.appendChild(row);
   }
 }
 
@@ -139,7 +137,7 @@ function checkForWin() {
   // ways to win: horizontal, vertical, diagonalDR, diagonalDL
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
-      // TODO: assign values to the below iables for each of the ways to win
+      // TODO: assign values to the below variables for each of the ways to win
       // horizontal has been assigned for you
       // each should be an array of 4 cell coordinates:
       // [ [y, x], [y, x], [y, x], [y, x] ]
