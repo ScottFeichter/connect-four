@@ -10,6 +10,7 @@
 
 .piece {
   /* TODO: make into circles */
+  /* ^rounded corners? look at radius */
   margin: 5px;
   width: 80%;
   height: 80%;
