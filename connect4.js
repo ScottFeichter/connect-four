@@ -52,16 +52,16 @@ function makeHtmlBoard(width = WIDTH, height = HEIGHT) {
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
-  for (let heightIndex = 0; heightIndex < height; heightIndex++) {
+  for (let heightIndex = 0; heightIndex < height; heightIndex++) { // todo: okay to set counter variables to 'x' or 'y' or sim
     // // TODO: Create a table row element and assign to a "row"
     let row = document.createElement("tr");
     row.className = "rableRow";
 
-    for (let widthIndex = 0; widthIndex < width; widthIndex++) {
+    for (let widthIndex = 0; widthIndex < width; widthIndex++) { // todo: okay to set counter variables to 'x' or 'y' or sim
       // // TODO: Create a table cell element and assign to a "cell" variable
       let cell = document.createElement("td");
       cell.className = "tableCell";
-      cell.id = "c-y-x";
+      cell.id = "c-y-x"; //todo: should be a template literal
       // // TODO: add an id, c-y-x, to the above table cell element
       // you'll use this later, so make sure you use c-y-x
       // // TODO: append the table cell to the table row
