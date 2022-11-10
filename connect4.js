@@ -35,7 +35,6 @@ function makeBoard(width = WIDTH, height = HEIGHT) {
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard(width = WIDTH, height = HEIGHT) {
-
   // creates top row clickers
   let top = document.createElement("tr");
   top.setAttribute("id", "column-top");
@@ -84,7 +83,6 @@ function placeInTable(y, x) {
   // tableCellDiv.className = "p1";
   let cellPosition = document.getElementById(`c-${y},${x}`);
   cellPosition.appendChild(tableCellDiv);
-
 }
 
 /** endGame: announce game end */
@@ -93,14 +91,19 @@ function endGame(msg) {
   // TODO: pop up alert message
 }
 
+/** checks for if entire board is filled  */
+function isEntireBoardFilled(board) {
+  return board.every((x) => x !== null);
+}
+
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
   // get x from ID of clicked cell
 
   const targetId = evt.target.id; // todo: check this id. is it supposed to be a number?
-  let splits = targetId.split(' ')
-  const xValue = splits[1]
+  let splits = targetId.split(" ");
+  const xValue = splits[1];
 
   // get next spot in column (if none, ignore click)
   let y = findSpotForCol(targetId);
@@ -112,10 +115,18 @@ function handleClick(evt) {
   // TODO: add line to update in-memory board
   placeInTable(y, xValue);
 
+
   // check for win
   if (checkForWin()) {
     return endGame(`Player ${currPlayer} won!`);
   }
+
+  let isEntireBoardFilled = isEntireBoardFilled();
+  if (isEntireBoardFilled) {
+    return endGame('Board is filled, Play again!');
+  }
+
+  currPlayer === 1 ? currPlayer = 2 : currPlayer = 1
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
