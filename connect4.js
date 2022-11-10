@@ -78,6 +78,7 @@ function findNextOpenCell(columnCells) {
       emptyCell = columnCells[index];
     }
   }
+  // todo: address full stack
   return emptyCell;
 }
 
@@ -186,7 +187,7 @@ function handleClick(evt) {
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
-function checkForWin() {
+function checkForWin(height = HEIGHT, width = WIDTH) {
   /** _win:
    * takes input array of 4 cell coordinates [ [y, x], [y, x], [y, x], [y, x] ]
    * returns true if all are legal coordinates for a cell & all cells match
@@ -195,13 +196,61 @@ function checkForWin() {
   function _win(cells) {
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
+
+    // check for max cells
+    // const last = cells.length - 1;
+    // const maped = cells.map((x) => x[1]);
+    const widthCheckMax = Math.max(...cells.map((x) => x[1]));
+    const widthMaxCheck = widthCheckMax + 3 <= width;
+
+    // const widthCheckMin = cells[last][1];
+    const widthCheckMin = Math.min(...cells.map((x) => x[1]));
+    const widthMinCheck = widthCheckMin - 3 <= width;
+
+    const heightCheckMax = Math.max(...cells.map((x) => x[0]));
+    const heightMaxCheck = heightCheckMax + 3 <= width;
+
+    const heightCheckMin = Math.min(...cells.map((x) => x[0]));
+    const heightMinCheck = heightCheckMin - 3 <= width;
+
+    if (widthMaxCheck && widthMinCheck && heightMaxCheck && heightMinCheck) {
+      let foundCells = [];
+      for (let index = 0; index < cells.length; index++) {
+        const combo = cells[index];
+        const cell = document.getElementById(`c-${combo[0]},${combo[1]}`);
+        if (cell !== undefined) {
+          foundCells.push(cell);
+        }
+      }
+
+      let colors = [];
+      for (const cell of foundCells) {
+        if (cell?.children.length > 0) {
+          let firstchild = cell.children[0];
+          if (firstchild.className.includes("p" + currPlayer)) {
+            console.log("has color");
+          }
+        }
+      }
+
+      let colorsAccurate = false;
+      if (colors.length === 4) {
+        colors.every((x) => x === true);
+      }
+
+      /* const colorsAccurate = foundCells.every((x) =>
+        x.children.className.includes('p' + currPlayer)
+      ); */
+
+      return colorsAccurate;
+    }
   }
 
   // using HEIGHT and WIDTH, generate "check list" of coordinates
   // for 4 cells (starting here) for each of the different
   // ways to win: horizontal, vertical, diagonalDR, diagonalDL
-  for (let y = 0; y < HEIGHT; y++) {
-    for (let x = 0; x < WIDTH; x++) {
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
       // TODO: assign values to the below variables for each of the ways to win
       // horizontal has been assigned for you
       // each should be an array of 4 cell coordinates:
@@ -213,12 +262,32 @@ function checkForWin() {
         [y, x + 2],
         [y, x + 3],
       ];
-      let vert;
-      let diagDL;
-      let diagDR;
+      let vert = [
+        [y, x],
+        [y + 1, x],
+        [y + 2, x],
+        [y + 3, x],
+      ];
+      let diagDL = [
+        [y, x],
+        [y - 1, x - 1],
+        [y - 2, x - 2],
+        [y - 3, x - 3],
+      ];
+      let diagDR = [
+        [y, x],
+        [y - 1, x + 1],
+        [y - 2, x + 2],
+        [y - 3, x + 3],
+      ];
 
       // find winner (only checking each win-possibility as needed)
-      if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+      let horizWin = _win(horiz);
+      let vertWin = _win(vert);
+      let diagDRWin = _win(diagDR);
+      let diagDLWin = _win(diagDL);
+
+      if (horizWin || vertWin || diagDRWin || diagDLWin) {
         return true;
       }
     }
