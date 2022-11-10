@@ -81,7 +81,7 @@ function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
   let tableCellDiv = document.createElement("div");
   tableCellDiv.className = `piece p${currPlayer}`;
-  tableCellDiv.className = "p1";
+  // tableCellDiv.className = "p1";
   let cellPosition = document.getElementById(`c-${y},${x}`);
   cellPosition.appendChild(tableCellDiv);
 
@@ -98,18 +98,19 @@ function endGame(msg) {
 function handleClick(evt) {
   // get x from ID of clicked cell
 
-  const x = +evt.target.id; // todo: check this id. is it supposed to be a number?
-
+  const targetId = evt.target.id; // todo: check this id. is it supposed to be a number?
+  let splits = targetId.split(' ')
+  const xValue = splits[1]
 
   // get next spot in column (if none, ignore click)
-  let y = findSpotForCol(x);
+  let y = findSpotForCol(targetId);
   if (y === null) {
     return;
   }
 
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
-  placeInTable(y, x);
+  placeInTable(y, xValue);
 
   // check for win
   if (checkForWin()) {
