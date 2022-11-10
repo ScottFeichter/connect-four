@@ -54,7 +54,7 @@ function makeHtmlBoard(width = WIDTH, height = HEIGHT) {
   // uses WIDTH to create table cells for each row
   for (let y = 0; y < height; y++) {
     let row = document.createElement("tr");
-    row.className = "rableRow";
+    row.className = "tableRow";
 
     for (let x = 0; x < width; x++) {
       let cell = document.createElement("td");
@@ -67,11 +67,62 @@ function makeHtmlBoard(width = WIDTH, height = HEIGHT) {
   }
 }
 
+function findNextOpenCell(columnCells) {
+  let emptyCell = undefined;
+  for (let index = 0; index < columnCells.length; index++) {
+    const cell = columnCells[index];
+    if (cell.children.length > 0 && index !== 0) {
+      emptyCell = columnCells[index - 1];
+      return emptyCell;
+    } else if (cell.children.length === 0 && index === columnCells.length - 1) {
+      emptyCell = columnCells[index];
+    }
+  }
+  return emptyCell;
+}
+
+function getColumnCels(col) {
+  let colNumber = col.id.split(" ")[1];
+
+  // find all cells with x value of 6
+  // get parent
+  const colParent = col.parentElement.parentElement;
+  // get all table rows in parent
+  const tableRows = colParent.getElementsByClassName("tableRow");
+  let columnCells = [];
+  for (const row of Array.from(tableRows)) {
+    const rowCells = row.children;
+    for (const cell of rowCells) {
+      const splits = cell.id.split(",");
+      if (splits[1] === colNumber) {
+        columnCells.push(cell);
+      }
+    }
+  }
+
+  return columnCells;
+}
+
 /** findSpotForCol: given column x, return bottom empty y (null if filled) */
 
-function findSpotForCol(x) {
+function findSpotForCol(targetId) {
   // TODO: write the real version of this, rather than always returning 5
-  return 5;
+
+  // get contents of target id
+  const col = document.getElementById(targetId);
+
+  const colCellStack = getColumnCels(col);
+  // find lowest value for those. (math.floor)
+  // return that value
+  let nextAvailableCell = findNextOpenCell(colCellStack);
+
+  if (nextAvailableCell !== undefined) {
+    const regex = /(?!-)[0-9](?=,)/;
+    const cellYValue = nextAvailableCell.id.match(regex)[0];
+    return cellYValue;
+  } else {
+    // todo: alert user they cant add any more spots in here.
+  }
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
@@ -93,7 +144,8 @@ function endGame(msg) {
 
 /** checks for if entire board is filled  */
 function isEntireBoardFilled(board) {
-  return board.every((x) => x !== null);
+  const boardfull = board.every((x) => x.every((y) => y !== null));
+  return boardfull;
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -115,24 +167,21 @@ function handleClick(evt) {
   // TODO: add line to update in-memory board
   placeInTable(y, xValue);
 
-
   // check for win
   if (checkForWin()) {
     return endGame(`Player ${currPlayer} won!`);
   }
 
-  let isEntireBoardFilled = isEntireBoardFilled();
-  if (isEntireBoardFilled) {
-    return endGame('Board is filled, Play again!'); // todo: its a tie!
-  }
-
-
   // check for tie
-  // TODO: check if all cells in board are filled; if so call, call endGame
+  // // TODO: check if all cells in board are filled; if so call, call endGame
+
+  if (isEntireBoardFilled(board)) {
+    return endGame("its a tie! Play again!"); // todo: its a tie!
+  }
 
   // switch players
   // // TODO: switch currPlayer 1 <-> 2
-  currPlayer === 1 ? currPlayer = 2 : currPlayer = 1
+  currPlayer === 1 ? (currPlayer = 2) : (currPlayer = 1);
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
