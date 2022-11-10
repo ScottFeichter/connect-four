@@ -44,7 +44,8 @@ function makeHtmlBoard(width = WIDTH, height = HEIGHT) {
   // creates head cell
   for (let headCellIndex = 0; headCellIndex < width; headCellIndex++) {
     let headCell = document.createElement("td");
-    headCell.setAttribute("id", headCell);
+    headCell.id = `${headCell} ${headCellIndex}`;
+    // headCell.setAttribute("id", headCell);
     top.append(headCell);
   }
   htmlBoard.append(top);
@@ -93,7 +94,9 @@ function endGame(msg) {
 
 function handleClick(evt) {
   // get x from ID of clicked cell
+
   const x = +evt.target.id; // todo: check this id. is it supposed to be a number?
+
 
   // get next spot in column (if none, ignore click)
   let y = findSpotForCol(x);
