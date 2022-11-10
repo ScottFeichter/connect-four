@@ -52,22 +52,17 @@ function makeHtmlBoard(width = WIDTH, height = HEIGHT) {
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
-  for (let heightIndex = 0; heightIndex < height; heightIndex++) { // todo: okay to set counter variables to 'x' or 'y' or sim
-    // // TODO: Create a table row element and assign to a "row"
+  for (let y = 0; y < height; y++) {
     let row = document.createElement("tr");
     row.className = "rableRow";
 
-    for (let widthIndex = 0; widthIndex < width; widthIndex++) { // todo: okay to set counter variables to 'x' or 'y' or sim
-      // // TODO: Create a table cell element and assign to a "cell" variable
+    for (let x = 0; x < width; x++) {
       let cell = document.createElement("td");
       cell.className = "tableCell";
-      cell.id = "c-y-x"; //todo: should be a template literal
-      // // TODO: add an id, c-y-x, to the above table cell element
-      // you'll use this later, so make sure you use c-y-x
-      // // TODO: append the table cell to the table row
+      cell.id = `c-${y},${x}`;
       row.appendChild(cell);
     }
-    // // TODO: append the row to the html board
+
     htmlBoard.appendChild(row);
   }
 }
@@ -83,6 +78,9 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
+  let tableCellDiv = document.createElement("div");
+  tableCellDiv.className = `piece ${currPlayer}`;
+  htmlBoard.appendChild(tableCellDiv);
 }
 
 /** endGame: announce game end */
